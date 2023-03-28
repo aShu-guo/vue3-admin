@@ -2,7 +2,7 @@
  * 更改项目主题色以及其他UI间距
  */
 const modifyTheme = () => ({
-  /*'primary-color': '#377BF7', // 全局主色
+  'primary-color': '#377BF7', // 全局主色
   'link-color': '#0871F2', // 链接色
   'success-color': '#17CE89', // 成功色
   'warning-color': '#E9A112', // 警告色
@@ -82,6 +82,6 @@ const modifyTheme = () => ({
   'btn-default-bg': '#EFF6FF',
   'btn-default-border': 'transparent',
   'height-lg': '42px',
-  'btn-padding-horizontal-lg': '39px',*/
+  'btn-padding-horizontal-lg': '39px',
 });
 export default modifyTheme;

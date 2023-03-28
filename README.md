@@ -6,4 +6,4 @@
 - 🔩Modular management plugin
 - 🐜Ant ecology: ant-design-vue and pro-layout
 - 📥 APIs auto importing - use Composition API and others directly
-
+- 🧩 Built-in components: table、status-text、editor...

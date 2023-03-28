@@ -9,6 +9,9 @@
         <slot name="operations"></slot>
       </div>
     </div>
+    <div class="extra-opt">
+      <slot name="extra-opt"></slot>
+    </div>
     <!--  table布局  -->
     <div class="table-box">
       <slot name="table"></slot>
@@ -33,15 +36,19 @@ const props = defineProps({
 .mix-content-box {
   display: flex;
   flex-flow: column;
+  //border-radius: 2px;
+  background: lightgray;
+  padding: 26px 30px 0;
 
   .page-params-box {
     display: flex;
-    background: #ffffff;
+    background: gray;
     border-radius: 4px;
-    padding: 31px 36px 31px 28px;
+    padding: 15px 30px 15px 60px;
 
     .params-box {
       flex: 1;
+      margin-right: 60px;
 
       :deep(.ant-form) {
         width: 100%;
@@ -49,16 +56,12 @@ const props = defineProps({
     }
   }
 
-  :deep(.table-box) {
-    padding: 36px 36px 0;
-    margin-top: 20px;
-    background: #ffffff;
-    border-radius: 4px;
-    flex: 1;
+  .extra-opt {
+    margin-top: 32px;
+  }
 
-    .ant-table-body {
-      padding-bottom: 350px;
-    }
+  :deep(.table-box) {
+    margin-top: 16px;
   }
 }
 

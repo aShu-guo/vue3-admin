@@ -11,7 +11,7 @@
     >
       <!--   是字符串、数值、undefined类型   -->
       <span v-if="typeof field.value === 'string' || typeof field.value === 'number' || field.value === undefined">
-        {{ field.value ? field.value : '-' }}
+        {{ renderEmptyText(field.value) }}
       </span>
       <component v-else :is="field.value" />
     </a-descriptions-item>
@@ -19,6 +19,8 @@
 </template>
 
 <script setup name="FieldsDesc">
+import { renderEmptyText } from '@/common/table';
+
 defineProps({
   fields: { type: Array },
 });
@@ -26,20 +28,23 @@ defineProps({
 
 <style lang="less" scoped>
 :deep(.ant-descriptions-item) {
-  padding-bottom: 18px;
+  //padding-bottom: 18px;
 
   .ant-descriptions-item-label {
     font-size: 14px;
-    font-weight: 400;
-    color: #85898f;
+    font-weight: 500;
+    color: #e0e5e5;
+    line-height: 40px;
   }
 
   .ant-descriptions-item-content {
     width: 100%;
+    margin-left: 10px;
     display: inline-block;
     font-size: 14px;
     font-weight: 400;
-    color: #343c4c;
+    color: #aaafb3;
+    line-height: 40px;
   }
 }
 </style>

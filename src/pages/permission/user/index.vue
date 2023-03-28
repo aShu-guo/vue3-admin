@@ -36,27 +36,16 @@
       <template #operations>
         <div class="opt-list">
           <a-space :size="24">
-            <a-button shape="round" type="primary" size="large" class="ph-38" @click="initData(toRaw(formState), data)">
+            <a-button shape="round" type="primary" size="large" class="ph-38" @click="table.submit(true)">
               查询
             </a-button>
-            <a-button shape="round" size="large" class="ph-38" @click="reset">重置</a-button>
+            <a-button shape="round" size="large" class="ph-38" @click="useReset(form, table)">重置</a-button>
           </a-space>
         </div>
       </template>
 
       <template #table>
-        <a-table
-          @change="handleTableChange"
-          :columns="columns"
-          :data-source="data.rows"
-          :row-class-name="(_record, index) => (index % 2 === 0 ? 'table-striped' : '')"
-          :pagination="{
-            showSizeChanger: true,
-            showQuickJumper: true,
-            total: data.total,
-            showTotal: (total, range) => `共${total}条记录 第${Math.ceil(range[1] / 10)}/${Math.ceil(total / 10)}页`,
-          }"
-        >
+        <pro-table :api="initData" :columns="columns">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'userStatus'">
               <div
@@ -91,7 +80,7 @@
               <a-divider type="vertical" />
             </template>
           </template>
-        </a-table>
+        </pro-table>
       </template>
     </TableContainer>
 
@@ -109,29 +98,64 @@
 </template>
 
 <script setup name="MsgCenterPending">
-import { onMounted, reactive, ref, toRaw } from 'vue';
-import { IndustryEnum, initColumns, initData, StatusEnum } from './columns';
+import { onMounted, reactive, ref } from 'vue';
+import { columns, IndustryEnum, StatusEnum } from './columns';
 import { PageContainer } from '@ant-design-vue/pro-layout';
 import { getListByEnum } from '@/common/utils';
 import { message } from 'ant-design-vue';
+import { useReset } from '@/components/pro-table/hook';
 
 const formState = reactive({
   username: '',
   industryType: '',
   roleId: '',
-  pageNo: 1,
-  pageSize: 10,
 });
 const form = ref(null);
 const roleList = ref([]);
-const data = ref({});
-const columns = initColumns(formState.pageSize, formState.pageNo);
-
 const visible = ref(false);
-
 onMounted(() => {
-  initData(toRaw(formState), data);
+  setTimeout(() => {
+    roleList.value = [
+      { roleId: 100, roleName: '超级管理员' },
+      { roleId: 101, roleName: '管理员' },
+    ];
+  }, 1000);
 });
+const initData = async () => {
+  const { rows, total } = await Promise.resolve({
+    total: 3,
+    rows: [
+      {
+        userId: '65a896b470c1',
+        username: 'Wang123',
+        industryType: '1,2',
+        roleName: '用户',
+        orgType: '1',
+        createdTime: '2023-03-03T11:51:09',
+        userStatus: '2',
+      },
+      {
+        userId: 'e429d21d24b0',
+        username: 'admin4',
+        industryType: null,
+        roleName: '管理员',
+        orgType: null,
+        createdTime: '2023-03-01T17:17:03',
+        userStatus: '2',
+      },
+      {
+        userId: '7a6eb92f8250',
+        username: '浙江科尚有限公司',
+        industryType: '1,2',
+        roleName: '用户',
+        orgType: '5',
+        createdTime: '2023-03-01T16:06:11',
+        userStatus: '2',
+      },
+    ],
+  });
+  return { rows, total };
+};
 const toggleAccount = async (record) => {
   // 传当前状态
   if (record.userStatus !== StatusEnum.Normal.value) {
@@ -144,17 +168,6 @@ const toggleAccount = async (record) => {
 
 const resetPwd = async (_record) => {
   message.success('重置成功');
-};
-
-const handleTableChange = (pagination) => {
-  formState.pageNo = pagination.current;
-  formState.pageSize = pagination.pageSize;
-  initData(toRaw(formState), data);
-};
-
-const reset = () => {
-  form.value.resetFields();
-  initData(toRaw(formState), data);
 };
 </script>
 
